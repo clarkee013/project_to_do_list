@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ProjectToDoList</string>
+    <string name="say_menu">Menu</string>
 </resources>
