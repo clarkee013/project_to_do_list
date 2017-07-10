@@ -11,12 +11,11 @@ public class Task {
 
     private String title;
     private String details;
-    private boolean tick;
 
-    public Task(String title, String details, Boolean tick) {
+
+    public Task(String title, String details) {
         this.title = title;
         this.details = details;
-        this.tick = tick;
     }
 
 
@@ -28,9 +27,14 @@ public class Task {
         return details;
     }
 
-    public boolean getTick() {
-        return tick;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
 }
 
 

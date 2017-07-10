@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="46dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -16,11 +16,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="task title" />
+        tools:text="task title"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/details"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="62dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -28,5 +30,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="task details" />
+        tools:text="task details"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
 </android.support.constraint.ConstraintLayout>

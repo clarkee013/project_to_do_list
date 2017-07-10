@@ -34,40 +34,26 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.taskOverview);
         listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(taskAdapter);
-//        final CheckedTextView checkedTextView = (CheckedTextView) findViewById(R.id.taskitem);
-//        checkedTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (checkedTextView.isChecked()) {
-//                    checkedTextView.setChecked(false);
-//                }
-//                else
-//                    checkedTextView.setChecked(true);
-//            }
-//        });
-
-
     }
-
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_button) {
-            // TODO: do something - intent to add a task page??
+            Intent intent = new Intent(this, NewTaskItem.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.action_hello) {
-//            Toast.makeText(MainActivity.this, R.string.menu_toast_hello,
-//                    Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
 }
 
 

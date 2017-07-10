@@ -33,6 +33,24 @@ public class TaskTest {
         assertEquals(true, task.getTick());
     }
 
+    @Test
+    public void setTitleTest(){
+        task.setTitle("set title test");
+        assertEquals("set title test", task.getTitle());
+
+    }
+
+    @Test
+    public void setDetailsTest(){
+        task.setDetails("set details test");
+        assertEquals("set details test", task.getDetails());
+    }
+
+    @Test
+    public void setTickTest(){
+        task.setTick(false);
+        assertEquals(false, task.getTick());
+    }
 }
 
 
