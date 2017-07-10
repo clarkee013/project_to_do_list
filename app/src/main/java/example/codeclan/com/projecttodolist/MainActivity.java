@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Task> list = taskList.getList();
 
         TaskListAdapter taskAdapter = new TaskListAdapter(this, list);
+        SingleTaskListAdapter singleTaskListAdapter = new SingleTaskListAdapter(this, list);
 
         ListView listView = (ListView) findViewById(R.id.taskOverview);
         listView.setAdapter(taskAdapter);
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
     }
 
+    public void getSingleTask(View view) {
 
+    }
 }
 
 
