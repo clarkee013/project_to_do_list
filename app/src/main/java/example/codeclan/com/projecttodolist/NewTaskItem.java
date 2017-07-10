@@ -25,21 +25,9 @@ public class NewTaskItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task_item);
 
-        newTitle = (EditText)findViewById(R.id.newTitle);
-        newDetails = (EditText)findViewById(R.id.newDetails);
-        saveButton = (Button)findViewById(R.id.saveButton);
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-
-        String newTitle = extras.getString("newTitle");
-        String newDetails = extras.getString("newDetails");
-
-    }
-
-    @Override
-    protected void onClick(Button saveButton) {
-
+        newTitle = (EditText) findViewById(R.id.newTitle);
+        newDetails = (EditText) findViewById(R.id.newDetails);
+        saveButton = (Button) findViewById(R.id.saveButton);
     }
 
 }

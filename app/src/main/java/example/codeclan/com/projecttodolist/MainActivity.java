@@ -32,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
         TaskListAdapter taskAdapter = new TaskListAdapter(this, list);
 
         ListView listView = (ListView) findViewById(R.id.taskOverview);
-        listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(taskAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_main, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -47,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.activity_main, menu);
-        return true;
+    public void onClick(View MainActivity){
+            Task task = (Task) MainActivity.getTag();
+            Intent intent = new Intent(this, SingleTaskView.class);
+            startActivity(intent);
     }
+
 
 }
 

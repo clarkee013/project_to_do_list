@@ -30,20 +30,11 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         }
         final Task currentTask = getItem(position);
 
-        final CheckedTextView title = (CheckedTextView) listItemView.findViewById(R.id.taskitem);
+        final TextView title = (TextView) listItemView.findViewById(R.id.taskitem);
         title.setText(currentTask.getTitle());
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (title.isChecked()) {
-                    title.setChecked(false);
-                } else
-                    title.setChecked(true);
-            }
-        });
         listItemView.setTag(currentTask);
         return listItemView;
     }
+
+
 }
-
-
