@@ -15,9 +15,9 @@ public class TaskList {
 
     public TaskList(){
         list = new ArrayList<Task>();
-        list.add(new Task("Dishes", "Put away dishes & wash what is there"));
-        list.add(new Task("Bathroom", "Clean the bathroom, including the window!"));
-        list.add(new Task("Tidy loft", "tidy the loft, including dusting the Lego collection"));
+        list.add(new Task("Dishes", "Put away dishes & wash what is there", false));
+        list.add(new Task("Bathroom", "Clean the bathroom, including the window!", false));
+        list.add(new Task("Tidy loft", "tidy the loft, including dusting the Lego collection", false));
         }
 
     public ArrayList<Task> getList() {

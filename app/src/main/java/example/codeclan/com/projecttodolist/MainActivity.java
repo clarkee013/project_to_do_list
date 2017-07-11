@@ -1,39 +1,71 @@
 package example.codeclan.com.projecttodolist;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static android.R.attr.id;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList<Task> oneSingleTask;
+    ArrayList<Task> list;
+    SharedPreferences sharedPref;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TaskList taskList = new TaskList();
-        ArrayList<Task> list = taskList.getList();
+//        TaskList taskList = new TaskList();
+//        ArrayList<Task> list = taskList.getList();
+//        TaskListAdapter taskAdapter = new TaskListAdapter(this, list);
+//        ListView listView = (ListView) findViewById(R.id.taskOverview);
+//        listView.setAdapter(taskAdapter);
 
-        TaskListAdapter taskAdapter = new TaskListAdapter(this, list);
-        SingleTaskListAdapter singleTaskListAdapter = new SingleTaskListAdapter(this, list);
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.clear().commit();
+//        two lines above clear the list
 
-        ListView listView = (ListView) findViewById(R.id.taskOverview);
-        listView.setAdapter(taskAdapter);
+        String singleTask = sharedPref.getString("SingleTask", new ArrayList<Task>().toString());
+        Log.d("new task string", singleTask);
+
+        gson = new Gson();
+        TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>(){};
+        oneSingleTask = gson.fromJson(singleTask, taskArrayList.getType());
+        Log.d("oneSingleTask", oneSingleTask.toString());
+        if (getIntent().getExtras() != null ) {
+            Task newTask = (Task) getIntent().getExtras().get("newTask");
+            oneSingleTask.add(newTask);
+//            Log.d("oneSingleTask", oneSingleTask.toString());
+        }
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("SingleTask", gson.toJson(oneSingleTask));
+        editor.apply();
+        //the above 3 lines are saving the details so it persists.
+
+        TaskListAdapter taskListAdapter = new TaskListAdapter(this, oneSingleTask);
+        ListView list = (ListView) findViewById(R.id.taskOverview);
+        list.setAdapter(taskListAdapter);
+
+
+
     }
 
     @Override
@@ -53,15 +85,35 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View MainActivity){
-            Task task = (Task) MainActivity.getTag();
-            Intent intent = new Intent(this, SingleTaskView.class);
-            startActivity(intent);
+    public void onClick(View listItem) {
+        Task task = (Task) listItem.getTag();
+        Log.d("Task Title: ", task.getTitle());
+
+        Intent intent = new Intent(this, SingleTaskView.class);
+        intent.putExtra("task", task);
+        startActivity(intent);
     }
 
-    public void getSingleTask(View view) {
-
+//    Should the below View and view be Button and button?
+    public void onDeleteButtonClick(View view){
+        View parent = (View) view.getParent();
+        String tag = parent.getTag().toString();
+        for (Task task : oneSingleTask){
+            if (task.getTitle().equals(tag)){
+                oneSingleTask.remove(task);
+                break;
+            }
+        }
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("task", gson.toJson(oneSingleTask));
+        editor.apply();
+        finish();
+//        Intent intent = new Intent(this, MainActivity.class);
+//        startActivity(intent);
+        startActivity(getIntent());
     }
+
+
 }
 
 
