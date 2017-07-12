@@ -1,8 +1,5 @@
 package example.codeclan.com.projecttodolist;
 
-import android.graphics.Movie;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

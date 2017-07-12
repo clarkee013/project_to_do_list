@@ -1,17 +1,26 @@
 package example.codeclan.com.projecttodolist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 public class NewTaskItem extends AppCompatActivity {
 
     EditText title;
     EditText details;
     Button saveButton;
+    SharedPreferences sharedPref;
+    ArrayList<Task> allTasks;
+    Gson gson;
+
 
 
     @Override
@@ -32,6 +41,8 @@ public class NewTaskItem extends AppCompatActivity {
         intent.putExtra("newTask", newTask);
         startActivity(intent);
     }
+
+
 
 
 }

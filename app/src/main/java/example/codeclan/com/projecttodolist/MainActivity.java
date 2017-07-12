@@ -18,11 +18,10 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Task> oneSingleTask;
-    ArrayList<Task> list;
+    ArrayList<Task> allTasks;
+    ListView listView;
     SharedPreferences sharedPref;
     Gson gson;
 
@@ -31,11 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        TaskList taskList = new TaskList();
-//        ArrayList<Task> list = taskList.getList();
-//        TaskListAdapter taskAdapter = new TaskListAdapter(this, list);
-//        ListView listView = (ListView) findViewById(R.id.taskOverview);
-//        listView.setAdapter(taskAdapter);
+
 
         sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPref.edit();
@@ -43,33 +38,42 @@ public class MainActivity extends AppCompatActivity {
 //        two lines above clear the list
 
         String singleTask = sharedPref.getString("SingleTask", new ArrayList<Task>().toString());
+//      Boolean tickStatus = sharedPref.getBoolean("TickStatus", false);
         Log.d("new task string", singleTask);
 
         gson = new Gson();
-        TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>(){};
-        oneSingleTask = gson.fromJson(singleTask, taskArrayList.getType());
-        Log.d("oneSingleTask", oneSingleTask.toString());
-        if (getIntent().getExtras() != null ) {
+        TypeToken<ArrayList<Task>> taskArrayList = new TypeToken<ArrayList<Task>>() {
+        };
+        allTasks = gson.fromJson(singleTask, taskArrayList.getType());
+        Log.d("allTasks", allTasks.toString());
+        if (getIntent().getExtras() != null) {
             Task newTask = (Task) getIntent().getExtras().get("newTask");
-            oneSingleTask.add(newTask);
-//            Log.d("oneSingleTask", oneSingleTask.toString());
+            if(newTask != null){
+                allTasks.add(newTask);
+            }
+//            Log.d("allTasks", allTasks.toString());
         }
 
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("SingleTask", gson.toJson(oneSingleTask));
-        editor.apply();
+
+        saveSharedPref();
+
         //the above 3 lines are saving the details so it persists.
 
-        TaskListAdapter taskListAdapter = new TaskListAdapter(this, oneSingleTask);
-        ListView list = (ListView) findViewById(R.id.taskOverview);
-        list.setAdapter(taskListAdapter);
-
+        TaskListAdapter taskListAdapter = new TaskListAdapter(this, allTasks);
+        listView = (ListView) findViewById(R.id.taskOverview);
+        listView.setAdapter(taskListAdapter);
 
 
     }
 
+    public void saveSharedPref(){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("SingleTask", gson.toJson(allTasks));
+        editor.apply();
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_main, menu);
         return true;
@@ -94,29 +98,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    Should the below View and view be Button and button?
-    public void onDeleteButtonClick(View view){
+    public void onCheckboxClicked(View view) {
+        // Get the position of the parent item in the list
         View parent = (View) view.getParent();
-        String tag = parent.getTag().toString();
-        for (Task task : oneSingleTask){
-            if (task.getTitle().equals(tag)){
-                oneSingleTask.remove(task);
-                break;
-            }
-        }
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("task", gson.toJson(oneSingleTask));
-        editor.apply();
-        finish();
-//        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-        startActivity(getIntent());
+        int position = listView.getPositionForView(parent);
+
+        // Toggle the truthiness of the task at position X
+        Task taskObject = allTasks.get(position);
+        taskObject.toggleComplete();
+        allTasks.remove(position);
+        allTasks.add(position, taskObject);
+
+        // save the arraylist in shared prefs
+        saveSharedPref();
+
     }
 
 
+
+
+
+
+
+
+
 }
-
-
-
 
 

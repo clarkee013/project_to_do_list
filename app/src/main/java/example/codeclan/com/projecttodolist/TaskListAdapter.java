@@ -37,11 +37,13 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         }
 
         final CheckBox tick = (CheckBox) listItemView.findViewById(R.id.taskCheckbox);
-        if (tick.isChecked()) {
-            tick.setChecked(false);
+        if (currentTask.getTick()) {
+            tick.setChecked(true);
         }
         listItemView.setTag(currentTask);
         return listItemView;
+
+
     }
 
 

@@ -45,6 +45,10 @@ public class Task implements Serializable{
         this.tick = tick;
     }
 
+    public void toggleComplete() {
+        this.tick = !this.tick;
+    }
+
 }
 
 

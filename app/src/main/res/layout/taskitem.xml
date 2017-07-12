@@ -27,6 +27,7 @@
         tools:text="task title" />
 
     <CheckBox
+        android:onClick="onCheckboxClicked"
         android:id="@+id/taskCheckbox"
         android:layout_width="45dp"
         android:layout_height="57dp"
